@@ -1,42 +1,22 @@
-# Text Extractor
+While developing the Ashtavakra Gita verse extractor, I encountered some small issues that would impact the outcome. Here is how I resolved them:
 
-This project is a Python-based text extractor designed to download, parse, and save verses from the Ashtavakra Gita. The text is sourced from the GRETIL plain text version, and the extracted verses are saved in a JSON format.
+1. Verse Structure (2 Lines + Verse Number)
 
-## Features
+In the text, a verse is terminated with something like: // Avg_1.5. I observed that prior to this, there are two lines of verse text.
 
-- Download text from a specified URL.
-- Parse verses and their indices from the downloaded text.
-- Save the extracted verses to a JSON file.
+What I did:
+I created a pattern that only catches two lines plus the verse number format. This ensures that I only gather complete and correct verses.
 
-## Installation
+2. Additional Text in the File
 
-To set up the project, you need to have Python installed on your machine. You can then install the required dependencies using pip.
+The file contains some additional lines such as headers, notes, or blank lines which are not verses.
 
-1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd text-extractor
-   ```
+What I did:
+I skipped everything that does not fit the verse format. Only lines that end with // Avg_1.5 (or the like) are caught.
 
-2. Install the required packages:
-   ```
-   pip install -r requirements.txt
-   ```
+3. Sanskrit Letters
 
-## Usage
+The lines have special characters such as ś, ā, and ī. These may be broken if encoding is incorrect.
 
-To run the text extractor, execute the following command in your terminal:
-
-```
-python src/text_extractor.py
-```
-
-This will download the Ashtavakra Gita text, parse the verses, and save them to a file named `ashtavakra_verses.json`.
-
-## Dependencies
-
-- `requests`: For making HTTP requests to download the text.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for more details.
+What I did:
+I employed UTF-8 encoding when saving the JSON, and also didn't force English-only characters. This preserves the Sanskrit characters.
